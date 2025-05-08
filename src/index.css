@@ -1,1 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Comfortaa', 'Roboto', sans-serif;
+  --color-primary: #1e2452;
+  --color-primary-focus: #2b347f;
+}
+
+#layout {
+  background-image: url('bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.btn-primary {
+  @apply rounded-full font-semibold py-4 px-8 bg-primary text-white hover:bg-primary-focus cursor-pointer transition-colors;
+}
+
+.btn-secondary {
+  @apply rounded-full font-semibold py-4 px-8 bg-gray-200 text-gray-900 hover:bg-gray-300 cursor-pointer transition-colors;
+}
+
+.card {
+  @apply bg-white rounded-2xl p-10 mt-10 shadow-lg;
+}
