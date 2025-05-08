@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { buscarCliente } from '../api/estado-cuenta.api'
+import { useState } from 'react'
+import { buscarCliente } from '../api/cliente.api'
 
 interface Props {
   changePage: (page: string) => void
@@ -17,12 +17,13 @@ export default function BuscarClientePage({
   const [rfc, setRfc] = useState('')
 
   async function onClickConsultar() {
-    const { buscarClienteRequest } = buscarCliente()
-
-    const cliente = await buscarClienteRequest(rfc)
-
-    setCurrentUser(cliente)
-    changePage('confirmarDatos')
+    try {
+      const cliente = await buscarCliente({ rfc, celular: '' })
+      setCurrentUser(cliente)
+      changePage('confirmarDatos')
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   return (

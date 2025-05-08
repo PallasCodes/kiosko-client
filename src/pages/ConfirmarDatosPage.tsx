@@ -1,4 +1,4 @@
-import { enviarCodigo } from '../api/estado-cuenta.api'
+import { enviarCodigo } from '../api/cliente.api'
 
 interface Props {
   changePage: (page: string) => void
@@ -11,14 +11,15 @@ interface Props {
 
 export default function ConfirmarDatosPage({ changePage, currentUser }: Props) {
   async function handleConfirmarDatos() {
-    const { enviarCodigoRequest } = enviarCodigo()
-
-    await enviarCodigoRequest({
-      rfc: currentUser.rfc,
-      celular: currentUser.celular
-    })
-
-    changePage('validarCodigo')
+    try {
+      await enviarCodigo({
+        rfc: currentUser.rfc,
+        celular: currentUser.celular
+      })
+      changePage('validarCodigo')
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   return (

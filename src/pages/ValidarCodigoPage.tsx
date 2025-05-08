@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { validarCodigo } from '../api/estado-cuenta.api'
+import { validarCodigo } from '../api/cliente.api'
 
 interface Props {
   changePage: (page: string) => void
@@ -15,12 +15,15 @@ export default function ValidarCodigoPage({ changePage, currentUser }: Props) {
   const [codigo, setCodigo] = useState('')
 
   async function handleValidarCodigo() {
-    const { validarCodigoRequest } = validarCodigo()
-
-    await validarCodigoRequest({
-      rfc: currentUser.rfc,
-      codigo: codigo
-    })
+    try {
+      await validarCodigo({
+        rfc: currentUser.rfc,
+        codigo: codigo
+      })
+      changePage('estadosCuenta')
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   return (
