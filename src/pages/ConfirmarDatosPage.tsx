@@ -1,3 +1,5 @@
+import { enviarCodigo } from '../api/estado-cuenta.api'
+
 interface Props {
   changePage: (page: string) => void
   currentUser: {
@@ -8,6 +10,17 @@ interface Props {
 }
 
 export default function ConfirmarDatosPage({ changePage, currentUser }: Props) {
+  async function handleConfirmarDatos() {
+    const { enviarCodigoRequest } = enviarCodigo()
+
+    await enviarCodigoRequest({
+      rfc: currentUser.rfc,
+      celular: currentUser.celular
+    })
+
+    changePage('validarCodigo')
+  }
+
   return (
     <>
       <h1 className="w-full text-center text-4xl font-bold text-white uppercase">
@@ -31,7 +44,7 @@ export default function ConfirmarDatosPage({ changePage, currentUser }: Props) {
             </button>
             <button
               className="btn bg-green-600 text-white font-bold text-xl grow-1 pb-1 pt-2 rounded-full cursor-pointer hover:bg-green-700 transition-colors"
-              onClick={() => changePage('validarCodigo')}
+              onClick={handleConfirmarDatos}
             >
               SI
             </button>

@@ -33,7 +33,12 @@ function App() {
           />
         )
       case 'validarCodigo':
-        return <ValidarCodigoPage changePage={setCurentPage} />
+        return (
+          <ValidarCodigoPage
+            changePage={setCurentPage}
+            currentUser={currentUser}
+          />
+        )
       default:
         return <h1>Page not found</h1>
     }
