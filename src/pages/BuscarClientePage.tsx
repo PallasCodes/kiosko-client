@@ -1,30 +1,11 @@
 import { useState } from 'react'
-import { buscarCliente } from '../api/cliente.api'
-
-interface Props {
-  changePage: (page: string) => void
-  setCurrentUser: (user: {
-    nombre: string
-    rfc: string
-    celular: string
-  }) => void
-}
 
 export default function BuscarClientePage({
-  changePage,
-  setCurrentUser
-}: Props) {
+  getClientes
+}: {
+  getClientes: (rfc: string) => Promise<void>
+}) {
   const [rfc, setRfc] = useState('')
-
-  async function onClickConsultar() {
-    try {
-      const cliente = await buscarCliente({ rfc, celular: '' })
-      setCurrentUser(cliente)
-      changePage('confirmarDatos')
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
 
   return (
     <>
@@ -57,7 +38,7 @@ export default function BuscarClientePage({
 
             <button
               className="btn-primary mt-6"
-              onClick={() => onClickConsultar()}
+              onClick={() => getClientes(rfc)}
             >
               Consultar información
             </button>

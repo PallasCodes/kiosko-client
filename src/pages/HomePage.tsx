@@ -1,5 +1,3 @@
-import React from 'react'
-
 import logoSrc from '../assets/intermercado-logo.png'
 
 export default function HomePage({

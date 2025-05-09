@@ -7,9 +7,7 @@ export async function buscarCliente({
   rfc: string
   celular: string
 }) {
-  const response = await fetch(
-    `${API_URL}/buscar-cliente?rfc=${rfc}&celular=${celular}`
-  )
+  const response = await fetch(`${API_URL}/buscar-cliente?rfc=${rfc}`)
 
   if (!response.ok) {
     throw new Error('Error al buscar el cliente')

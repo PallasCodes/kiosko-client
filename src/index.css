@@ -23,5 +23,18 @@
 }
 
 .card {
-  @apply bg-white rounded-2xl p-10 mt-10 shadow-lg;
+  @apply bg-white rounded-2xl p-10 mt-10 shadow;
+}
+
+#estadosCta td,
+th {
+  @apply py-2 px-2;
+}
+
+#estadosCta tr:nth-child(even) {
+  @apply bg-gray-100;
+}
+
+#estadosCta thead tr {
+  @apply bg-gray-300 font-bold;
 }

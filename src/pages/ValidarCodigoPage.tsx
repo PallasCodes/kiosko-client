@@ -20,7 +20,7 @@ export default function ValidarCodigoPage({ changePage, currentUser }: Props) {
         rfc: currentUser.rfc,
         codigo: codigo
       })
-      changePage('estadosCuenta')
+      changePage('listaEstadosCta')
     } catch (error: any) {
       console.log(error.message)
     }
