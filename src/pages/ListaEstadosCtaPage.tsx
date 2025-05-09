@@ -71,7 +71,7 @@ export default function ListaEstadosCtaPage({
                   <td>{estadoCta.promocion}</td>
                   <td>
                     <button
-                      className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center"
+                      className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
                       onClick={() => {
                         console.log('Imprimir estado de cuenta')
                         // printPDF(estadoCta.jasperAUsar, estadoCta.orden)

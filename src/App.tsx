@@ -8,7 +8,8 @@ import ConfirmarDatosPage from './pages/ConfirmarDatosPage'
 import HomePage from './pages/HomePage'
 import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
 import ValidarCodigoPage from './pages/ValidarCodigoPage'
-import { buscarCliente } from './api/cliente.api'
+import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
+import ExitBtn from './components/ExitBtn'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -29,14 +30,14 @@ function App() {
       case 'confirmarDatos':
         return (
           <ConfirmarDatosPage
-            changePage={setCurrentPage}
+            confirmarDatos={confirmarDatos}
             currentUser={currentUser}
           />
         )
       case 'validarCodigo':
         return (
           <ValidarCodigoPage
-            changePage={setCurrentPage}
+            validarCodigo={validarCodigoCliente}
             currentUser={currentUser}
           />
         )
@@ -87,12 +88,46 @@ function App() {
     }
   }
 
+  async function confirmarDatos() {
+    try {
+      setLoading(true)
+      await enviarCodigo({
+        rfc: currentUser.rfc,
+        celular: currentUser.celular
+      })
+      setCurrentPage('validarCodigo')
+    } catch (error: any) {
+      console.log(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function validarCodigoCliente(rfc: string, codigo: string) {
+    try {
+      setLoading(true)
+      await validarCodigo({ rfc, codigo })
+      setCurrentPage('listaEstadosCta')
+    } catch (error: any) {
+      console.log(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function exitEstadoCta() {
+    setCurrentPage('home')
+    setCurrentUser({ nombre: '', rfc: '', celular: '' })
+    setEstadosCta([])
+  }
+
   return (
     <>
       <Layout usePadding={currentPage !== 'home'}>
         {renderPage(currentPage)}
       </Layout>
       {loading && <SpinningLoader />}
+      {currentPage !== 'home' && <ExitBtn exit={exitEstadoCta} />}
     </>
   )
 }

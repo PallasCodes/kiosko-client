@@ -1,9 +1,7 @@
 import { useState } from 'react'
 
-import { validarCodigo } from '../api/cliente.api'
-
 interface Props {
-  changePage: (page: string) => void
+  validarCodigo: (rfc: string, codigo: string) => Promise<void>
   currentUser: {
     nombre: string
     rfc: string
@@ -11,20 +9,11 @@ interface Props {
   }
 }
 
-export default function ValidarCodigoPage({ changePage, currentUser }: Props) {
+export default function ValidarCodigoPage({
+  validarCodigo,
+  currentUser
+}: Props) {
   const [codigo, setCodigo] = useState('')
-
-  async function handleValidarCodigo() {
-    try {
-      await validarCodigo({
-        rfc: currentUser.rfc,
-        codigo: codigo
-      })
-      changePage('listaEstadosCta')
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
 
   return (
     <>
@@ -43,7 +32,7 @@ export default function ValidarCodigoPage({ changePage, currentUser }: Props) {
             <button className="btn-secondary">Reenviar SMS</button>
             <button
               className="btn-primary"
-              onClick={() => handleValidarCodigo()}
+              onClick={() => validarCodigo(currentUser.rfc, codigo)}
             >
               Validar código
             </button>

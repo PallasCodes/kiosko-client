@@ -1,7 +1,5 @@
-import { enviarCodigo } from '../api/cliente.api'
-
 interface Props {
-  changePage: (page: string) => void
+  confirmarDatos: (rfc: string, celular: string) => Promise<void>
   currentUser: {
     nombre: string
     rfc: string
@@ -9,19 +7,10 @@ interface Props {
   }
 }
 
-export default function ConfirmarDatosPage({ changePage, currentUser }: Props) {
-  async function handleConfirmarDatos() {
-    try {
-      await enviarCodigo({
-        rfc: currentUser.rfc,
-        celular: currentUser.celular
-      })
-      changePage('validarCodigo')
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
-
+export default function ConfirmarDatosPage({
+  confirmarDatos,
+  currentUser
+}: Props) {
   return (
     <>
       <h1 className="w-full text-center text-4xl font-bold text-white uppercase">
@@ -45,7 +34,9 @@ export default function ConfirmarDatosPage({ changePage, currentUser }: Props) {
             </button>
             <button
               className="btn bg-green-600 text-white font-bold text-xl grow-1 pb-1 pt-2 rounded-full cursor-pointer hover:bg-green-700 transition-colors"
-              onClick={handleConfirmarDatos}
+              onClick={() =>
+                confirmarDatos(currentUser.rfc, currentUser.celular)
+              }
             >
               SI
             </button>
