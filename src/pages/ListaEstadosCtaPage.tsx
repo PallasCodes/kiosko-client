@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import Printer from '../icons/Printer'
+import { formatDate, numberToCurrency } from '../utils/format'
 
 interface Props {
   changePage: (page: string) => void
@@ -64,10 +65,10 @@ export default function ListaEstadosCtaPage({
                   <td>{index + 1}</td>
                   <td>{estadoCta.folioInterno}</td>
                   <td>{estadoCta.convenio}</td>
-                  <td>{estadoCta.fechaVenta.toString()}</td>
+                  <td>{formatDate(new Date(estadoCta.fechaVenta))}</td>
                   <td>{estadoCta.producto}</td>
                   <td>{estadoCta.estatus}</td>
-                  <td>{estadoCta.importe}</td>
+                  <td>{numberToCurrency(+estadoCta.importe)}</td>
                   <td>{estadoCta.promocion}</td>
                   <td>
                     <button

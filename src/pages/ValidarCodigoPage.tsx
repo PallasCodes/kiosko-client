@@ -26,9 +26,9 @@ export default function ValidarCodigoPage({
             type="text"
             value={codigo}
             onChange={(e) => setCodigo(e.target.value)}
-            className="border-1 text-lg rounded-xl px-3 py-2 mt-6 min-w-[300px]"
+            className="border-1 text-lg rounded-xl px-3 py-2 mt-10 mb-8 min-w-[300px]"
           />
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 ">
             <button className="btn-secondary">Reenviar SMS</button>
             <button
               className="btn-primary"

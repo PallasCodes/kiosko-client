@@ -37,10 +37,10 @@ export default function BuscarClientePage({
             />
 
             <button
-              className="btn-primary mt-6"
+              className="btn-primary mt-6 w-full"
               onClick={() => getClientes(rfc)}
             >
-              Consultar información
+              Consultar
             </button>
           </div>
         </div>
