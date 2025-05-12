@@ -3,8 +3,6 @@ const currencyFormatter = new Intl.NumberFormat('es-MX', {
   currency: 'MXN'
 })
 
-const dateFormatter = new Intl.DateTimeFormat()
-
 export function numberToCurrency(number: number) {
   try {
     return currencyFormatter.format(number)
