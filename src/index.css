@@ -38,3 +38,7 @@ th {
 #estadosCta thead tr {
   @apply bg-gray-300 font-bold;
 }
+
+#exit-btn:hover #exit-btn-tooltip {
+display: block;
+}

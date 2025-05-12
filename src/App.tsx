@@ -76,10 +76,16 @@ function App() {
     fetchData()
   }, [currentPage])
 
-  async function getClientes(rfc: string) {
+  async function getClientes({
+    rfc,
+    celular
+  }: {
+    rfc?: string
+    celular?: string
+  }) {
     try {
       setLoading(true)
-      const cliente = await buscarCliente({ rfc, celular: '' })
+      const cliente = await buscarCliente({ rfc, celular })
       setCurrentUser(cliente)
       setCurrentPage('confirmarDatos')
     } catch (error: any) {

@@ -8,8 +8,10 @@ export default function HomePage({
   return (
     <div className="flex h-screen">
       <div className="w-2/3 flex flex-col items-center justify-center">
+        <h1 className="font-bold text-6xl text-center text-white w-full mb-4">
+          Bienvenido
+        </h1>
         <h1 className="font-bold text-6xl text-center text-white w-full mb-16">
-          Bienvenido <br />
           ¿Qué deseas hacer?
         </h1>
         <div className="flex flex-col text-xl">

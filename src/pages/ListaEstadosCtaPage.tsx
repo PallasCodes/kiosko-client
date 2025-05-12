@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { getPdfEstadoCta } from '../api/estado-cuenta.api'
 import { formatDate, numberToCurrency } from '../utils/format'
 
-import Printer from '../icons/Printer'
 import Dialog from '../components/Dialog'
+import EnvelopeIcon from '../components/EnvelopeIcon'
+import EyeIcon from '../icons/EyeIcon'
+import MobilePhoneIcon from '../icons/MobilePhoneIcon'
+import Printer from '../icons/Printer'
 
 interface Props {
   changePage: (page: string) => void
@@ -41,18 +44,19 @@ export default function ListaEstadosCtaPage({
 }: Props) {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [pdfUrl, setPdfUrl] = useState('')
+  const [estadoCtaSeleccionado, setEstadoCtaSeleccionado] =
+    useState<EstadoCtaTableRow | null>(null)
 
   async function handleClickImprimir(idOrden: number) {
     setLoading(true)
+    setEstadoCtaSeleccionado(
+      estadosCta.find((e) => e.orden === idOrden) || null
+    )
     const { urlPdf } = await getPdfEstadoCta(idOrden)
     setDialogOpen(true)
     setPdfUrl(urlPdf)
     setLoading(false)
   }
-
-  useEffect(() => {
-    console.log(estadosCta)
-  }, [estadosCta])
 
   return (
     <div className="flex justify-center">
@@ -89,12 +93,12 @@ export default function ListaEstadosCtaPage({
                   <td>{estadoCta.promocion}</td>
                   <td>
                     <button
-                      className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
+                      className="text-white bg-blue-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-blue-700 transition-colors"
                       onClick={() => handleClickImprimir(estadoCta.orden)}
                     >
-                      <Printer className="size-5" />
-                      <span className="ml-1 text-sm font-semibold">
-                        Imprimir
+                      <EyeIcon className="size-5" />
+                      <span className="text-sm font-semibold ml-1">
+                        Visualizar
                       </span>
                     </button>
                   </td>
@@ -107,11 +111,33 @@ export default function ListaEstadosCtaPage({
       <Dialog
         isOpen={isDialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Estado de cuenta"
+        title={`Estado de cuenta - ${estadoCtaSeleccionado?.folioInterno} - ${currentUser.nombre}`}
       >
-        <button className="mb-6">Imprimir</button>
+        <div className="flex gap-2 mb-4">
+          <button
+            className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
+            onClick={() => handleClickImprimir(1)}
+          >
+            <Printer className="size-5" />
+            <span className="ml-1 text-sm font-semibold">Imprimir</span>
+          </button>
+          <button
+            className="text-white bg-blue-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-blue-700 transition-colors"
+            onClick={() => handleClickImprimir(1)}
+          >
+            <MobilePhoneIcon className="size-5" />
+            <span className="ml-1 text-sm font-semibold">Enviar por SMS</span>
+          </button>
+          <button
+            className="text-white bg-gray-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-gray-700 transition-colors"
+            onClick={() => handleClickImprimir(1)}
+          >
+            <EnvelopeIcon className="size-5" />
+            <span className="ml-1 text-sm font-semibold">Enviar por email</span>
+          </button>
+        </div>
         <iframe
-          src={`${pdfUrl}#toolbar=0&zoom=133`}
+          src={`${pdfUrl}#toolbar=0&zoom=135`}
           className="w-full min-h-[78vh]"
         ></iframe>
       </Dialog>

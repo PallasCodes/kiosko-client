@@ -1,11 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function BuscarClientePage({
   getClientes
 }: {
-  getClientes: (rfc: string) => Promise<void>
+  getClientes: ({
+    rfc,
+    celular
+  }: {
+    rfc?: string
+    celular?: string
+  }) => Promise<void>
 }) {
   const [rfc, setRfc] = useState('')
+  const [celular, setCelular] = useState('')
+  const [activeField, setActiveField] = useState('rfc')
+
+  useEffect(() => {
+    if (activeField === 'rfc') {
+      setCelular('')
+    } else {
+      setRfc('')
+    }
+  }, [activeField])
 
   return (
     <>
@@ -26,19 +42,21 @@ export default function BuscarClientePage({
               onChange={(e) => setRfc(e.target.value)}
               className="border-1 text-lg rounded-xl px-3 py-2 mt-6"
               placeholder="RFC"
+              onFocus={() => setActiveField('rfc')}
             />
             <span className="font-bold text-2xl my-4">ó</span>
             <input
               type="text"
-              name=""
-              id=""
+              value={celular}
+              onChange={(e) => setCelular(e.target.value)}
               className="border-1 text-lg rounded-xl px-3 py-2"
               placeholder="Celular"
+              onFocus={() => setActiveField('celular')}
             />
 
             <button
               className="btn-primary mt-6 w-full"
-              onClick={() => getClientes(rfc)}
+              onClick={() => getClientes({ rfc, celular })}
             >
               Consultar
             </button>
