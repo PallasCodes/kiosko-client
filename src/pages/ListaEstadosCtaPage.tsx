@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Printer from '../icons/Printer'
 import { formatDate, numberToCurrency } from '../utils/format'
+import Dialog from '../components/Dialog'
 
 interface Props {
   changePage: (page: string) => void
@@ -33,6 +34,12 @@ export default function ListaEstadosCtaPage({
   currentUser,
   estadosCta
 }: Props) {
+  const [isDialogOpen, setDialogOpen] = useState(false)
+
+  function handleClickImprimir() {
+    setDialogOpen(true)
+  }
+
   useEffect(() => {
     console.log(estadosCta)
   }, [estadosCta])
@@ -73,10 +80,7 @@ export default function ListaEstadosCtaPage({
                   <td>
                     <button
                       className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
-                      onClick={() => {
-                        console.log('Imprimir estado de cuenta')
-                        // printPDF(estadoCta.jasperAUsar, estadoCta.orden)
-                      }}
+                      onClick={handleClickImprimir}
                     >
                       <Printer className="size-5" />
                       <span className="ml-1 text-sm font-semibold">
@@ -89,6 +93,19 @@ export default function ListaEstadosCtaPage({
           </tbody>
         </table>
       </div>
+
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={() => setDialogOpen(false)}
+        title="Imprimir estado de cuenta"
+      >
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis
+          deserunt, nihil dicta vero odit voluptate molestias soluta?
+          Perferendis voluptatem a vel nostrum at tempora impedit hic non cumque
+          mollitia. Neque.
+        </p>
+      </Dialog>
     </div>
   )
 }
