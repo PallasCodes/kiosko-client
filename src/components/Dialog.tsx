@@ -50,7 +50,7 @@ const Dialog: React.FC<DialogProps> = ({
             >
               &times;
             </button>
-            {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}
+            {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
             <div>{children}</div>
           </motion.div>
         </motion.div>

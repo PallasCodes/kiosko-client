@@ -47,6 +47,7 @@ function App() {
             changePage={setCurrentPage}
             currentUser={currentUser}
             estadosCta={estadosCta}
+            setLoading={setLoading}
           />
         )
       default:

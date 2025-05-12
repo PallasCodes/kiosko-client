@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
-import Printer from '../icons/Printer'
+
+import { getPdfEstadoCta } from '../api/estado-cuenta.api'
 import { formatDate, numberToCurrency } from '../utils/format'
+
+import Printer from '../icons/Printer'
 import Dialog from '../components/Dialog'
 
 interface Props {
@@ -11,6 +14,7 @@ interface Props {
     celular: string
   }
   estadosCta: EstadoCtaTableRow[]
+  setLoading: (loading: boolean) => void
 }
 
 export interface EstadoCtaTableRow {
@@ -32,12 +36,18 @@ export interface EstadoCtaTableRow {
 
 export default function ListaEstadosCtaPage({
   currentUser,
-  estadosCta
+  estadosCta,
+  setLoading
 }: Props) {
   const [isDialogOpen, setDialogOpen] = useState(false)
+  const [pdfUrl, setPdfUrl] = useState('')
 
-  function handleClickImprimir() {
+  async function handleClickImprimir(idOrden: number) {
+    setLoading(true)
+    const { urlPdf } = await getPdfEstadoCta(idOrden)
     setDialogOpen(true)
+    setPdfUrl(urlPdf)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -80,7 +90,7 @@ export default function ListaEstadosCtaPage({
                   <td>
                     <button
                       className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
-                      onClick={handleClickImprimir}
+                      onClick={() => handleClickImprimir(estadoCta.orden)}
                     >
                       <Printer className="size-5" />
                       <span className="ml-1 text-sm font-semibold">
@@ -97,14 +107,13 @@ export default function ListaEstadosCtaPage({
       <Dialog
         isOpen={isDialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Imprimir estado de cuenta"
+        title="Estado de cuenta"
       >
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis
-          deserunt, nihil dicta vero odit voluptate molestias soluta?
-          Perferendis voluptatem a vel nostrum at tempora impedit hic non cumque
-          mollitia. Neque.
-        </p>
+        <button className="mb-6">Imprimir</button>
+        <iframe
+          src={`${pdfUrl}#toolbar=0&zoom=133`}
+          className="w-full min-h-[78vh]"
+        ></iframe>
       </Dialog>
     </div>
   )

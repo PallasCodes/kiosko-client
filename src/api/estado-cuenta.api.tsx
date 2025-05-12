@@ -10,3 +10,20 @@ export async function obtenerEstadoCuenta(rfc: string) {
   const data = await response.json()
   return data
 }
+
+export async function getPdfEstadoCta(idOrden: number) {
+  const response = await fetch(`${API_URL}/generar-pdf`, {
+    method: 'POST',
+    body: JSON.stringify({ idOrden }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  if (!response.ok) {
+    throw new Error('Error al obtener el PDF del estado de cuenta')
+  }
+
+  const data = await response.json()
+  return data
+}
