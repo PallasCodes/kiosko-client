@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL + '/CLIENTE'
+const API_URL = import.meta.env.VITE_API_URL + '/cliente'
 
 export async function buscarCliente({
   rfc,
