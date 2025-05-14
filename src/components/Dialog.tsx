@@ -29,7 +29,7 @@ const Dialog: React.FC<DialogProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.72)]"
+          className="fixed inset-0 z-10 flex items-center justify-center bg-[rgba(0,0,0,0.72)]"
           variants={backdrop}
           initial="hidden"
           animate="visible"

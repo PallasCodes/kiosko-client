@@ -1,10 +1,13 @@
 import { useState } from 'react'
 
-import { getPdfEstadoCta } from '../api/estado-cuenta.api'
+import {
+  getPdfEstadoCta,
+  printEstadoCta,
+  sendSms
+} from '../api/estado-cuenta.api'
 import { formatDate, numberToCurrency } from '../utils/format'
 
 import Dialog from '../components/Dialog'
-import EnvelopeIcon from '../components/EnvelopeIcon'
 import EyeIcon from '../icons/EyeIcon'
 import MobilePhoneIcon from '../icons/MobilePhoneIcon'
 import Printer from '../icons/Printer'
@@ -52,10 +55,35 @@ export default function ListaEstadosCtaPage({
     setEstadoCtaSeleccionado(
       estadosCta.find((e) => e.orden === idOrden) || null
     )
-    const { urlPdf } = await getPdfEstadoCta(idOrden)
+    const { pdfUrl } = await getPdfEstadoCta(idOrden)
     setDialogOpen(true)
-    setPdfUrl(urlPdf)
+    setPdfUrl(pdfUrl)
     setLoading(false)
+  }
+
+  async function handleSendSms() {
+    setLoading(true)
+    await sendSms(
+      estadoCtaSeleccionado?.rfc as string,
+      estadoCtaSeleccionado?.orden as unknown as string
+    )
+    try {
+    } catch (error) {
+      console.error('Error al enviar el SMS:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleImprimir() {
+    try {
+      setLoading(true)
+      await printEstadoCta(estadoCtaSeleccionado?.orden as unknown as number)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -116,24 +144,17 @@ export default function ListaEstadosCtaPage({
         <div className="flex gap-2 mb-4">
           <button
             className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
-            onClick={() => handleClickImprimir(1)}
+            onClick={handleImprimir}
           >
             <Printer className="size-5" />
             <span className="ml-1 text-sm font-semibold">Imprimir</span>
           </button>
           <button
             className="text-white bg-blue-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-blue-700 transition-colors"
-            onClick={() => handleClickImprimir(1)}
+            onClick={handleSendSms}
           >
             <MobilePhoneIcon className="size-5" />
             <span className="ml-1 text-sm font-semibold">Enviar por SMS</span>
-          </button>
-          <button
-            className="text-white bg-gray-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-gray-700 transition-colors"
-            onClick={() => handleClickImprimir(1)}
-          >
-            <EnvelopeIcon className="size-5" />
-            <span className="ml-1 text-sm font-semibold">Enviar por email</span>
           </button>
         </div>
         <iframe
