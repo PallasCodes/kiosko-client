@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/estado-cuenta'
+const API_URL = import.meta.env.VITE_API_URL + '/estado-cuenta'
 
 export async function obtenerEstadoCuenta(rfc: string) {
   const response = await fetch(`${API_URL}/estados?rfc=${rfc}`)
