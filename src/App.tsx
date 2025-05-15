@@ -26,6 +26,8 @@ function App() {
   const [loading, setLoading] = useState(false)
 
   function renderAnimatedPage(page: string) {
+    if (page === 'home' || page === 'precalificador') return renderPage(page)
+
     const pageKey = page
     return (
       <AnimatePresence mode="wait">
