@@ -21,7 +21,12 @@ export default function HomePage({
           >
             Consultar mis estados de cuenta
           </button>
-          <button className="btn-primary mt-5">Precalificarme</button>
+          <button
+            className="btn-primary mt-5"
+            onClick={() => changePage('precalificador')}
+          >
+            Precalificarme
+          </button>
         </div>
       </div>
       <div className="bg-white w-1/3 px-24 flex items-center justify-center">

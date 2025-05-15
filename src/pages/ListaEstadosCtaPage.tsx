@@ -51,23 +51,28 @@ export default function ListaEstadosCtaPage({
     useState<EstadoCtaTableRow | null>(null)
 
   async function handleClickImprimir(idOrden: number) {
-    setLoading(true)
-    setEstadoCtaSeleccionado(
-      estadosCta.find((e) => e.orden === idOrden) || null
-    )
-    const { pdfUrl } = await getPdfEstadoCta(idOrden)
-    setDialogOpen(true)
-    setPdfUrl(pdfUrl)
-    setLoading(false)
+    try {
+      setLoading(true)
+      setEstadoCtaSeleccionado(
+        estadosCta.find((e) => e.orden === idOrden) || null
+      )
+      const { pdfUrl } = await getPdfEstadoCta(idOrden)
+      setPdfUrl(pdfUrl)
+      setDialogOpen(true)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleSendSms() {
-    setLoading(true)
-    await sendSms(
-      estadoCtaSeleccionado?.rfc as string,
-      estadoCtaSeleccionado?.orden as unknown as string
-    )
     try {
+      setLoading(true)
+      await sendSms(
+        estadoCtaSeleccionado?.rfc as string,
+        estadoCtaSeleccionado?.orden as unknown as string
+      )
     } catch (error) {
       console.error('Error al enviar el SMS:', error)
     } finally {

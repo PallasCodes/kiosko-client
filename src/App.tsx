@@ -10,6 +10,7 @@ import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
 import ValidarCodigoPage from './pages/ValidarCodigoPage'
 import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
 import ExitBtn from './components/ExitBtn'
+import PrecalificadorPage from './pages/PrecalificadorPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -50,6 +51,8 @@ function App() {
             setLoading={setLoading}
           />
         )
+      case 'precalificador':
+        return <PrecalificadorPage />
       default:
         return <h1>Page not found</h1>
     }
@@ -130,7 +133,9 @@ function App() {
 
   return (
     <>
-      <Layout usePadding={currentPage !== 'home'}>
+      <Layout
+        usePadding={currentPage !== 'home' && currentPage !== 'precalificador'}
+      >
         {renderPage(currentPage)}
       </Layout>
       {loading && <SpinningLoader />}
