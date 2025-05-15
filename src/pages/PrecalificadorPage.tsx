@@ -6,7 +6,7 @@ export default function PrecalificadorPage() {
       </h1>
       <iframe
         src="https://form.jotform.com/81547306540858?parentURL=https%3A%2F%2Fintermercado.com.mx%2Fsolicitud%2F&jsForm=true"
-        className="w-full h-[calc(100vh-4.75rem)]"
+        className="w-full h-[calc(100vh-4.75rem)] bg-white"
       ></iframe>
     </div>
   )

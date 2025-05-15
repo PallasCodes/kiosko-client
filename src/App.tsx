@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 
+import { Toaster } from 'sonner'
+
+import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
 import { obtenerEstadoCuenta } from './api/estado-cuenta.api'
+import ExitBtn from './components/ExitBtn'
 import Layout from './components/Layout'
 import SpinningLoader from './components/SpinningLoader'
 import BuscarClientePage from './pages/BuscarClientePage'
 import ConfirmarDatosPage from './pages/ConfirmarDatosPage'
 import HomePage from './pages/HomePage'
 import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
-import ValidarCodigoPage from './pages/ValidarCodigoPage'
-import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
-import ExitBtn from './components/ExitBtn'
 import PrecalificadorPage from './pages/PrecalificadorPage'
+import ValidarCodigoPage from './pages/ValidarCodigoPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -54,7 +56,7 @@ function App() {
       case 'precalificador':
         return <PrecalificadorPage />
       default:
-        return <h1>Page not found</h1>
+        return <h1>Página no encontrada</h1>
     }
   }
 
@@ -140,6 +142,7 @@ function App() {
       </Layout>
       {loading && <SpinningLoader />}
       {currentPage !== 'home' && <ExitBtn exit={exitEstadoCta} />}
+      <Toaster position="top-right" />
     </>
   )
 }

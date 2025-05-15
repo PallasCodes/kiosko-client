@@ -11,6 +11,7 @@ import Dialog from '../components/Dialog'
 import EyeIcon from '../icons/EyeIcon'
 import MobilePhoneIcon from '../icons/MobilePhoneIcon'
 import Printer from '../icons/Printer'
+import { toast } from 'sonner'
 
 interface Props {
   changePage: (page: string) => void
@@ -73,6 +74,7 @@ export default function ListaEstadosCtaPage({
         estadoCtaSeleccionado?.rfc as string,
         estadoCtaSeleccionado?.orden as unknown as string
       )
+      toast.success('Tu estado de cuenta ha sido enviado por SMS')
     } catch (error) {
       console.error('Error al enviar el SMS:', error)
     } finally {
@@ -87,6 +89,7 @@ export default function ListaEstadosCtaPage({
         estadoCtaSeleccionado?.orden as unknown as number,
         pdfUrl
       )
+      toast.success('Tu estado de cuenta ha sido impreso')
     } catch (error) {
       console.log(error)
     } finally {

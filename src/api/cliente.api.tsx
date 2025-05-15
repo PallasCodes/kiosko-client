@@ -1,3 +1,5 @@
+import { toast } from 'sonner'
+
 const API_URL = import.meta.env.VITE_API_URL + '/cliente'
 
 export async function buscarCliente({
@@ -8,14 +10,20 @@ export async function buscarCliente({
   celular?: string
 }) {
   const query = celular === '' ? `rfc=${rfc}` : `celular=${celular}`
-  const response = await fetch(`${API_URL}/buscar-cliente?${query}`)
+  try {
+    const response = await fetch(`${API_URL}/buscar-cliente?${query}`)
 
-  if (!response.ok) {
+    if (!response.ok) {
+      toast.error('Error al buscar tu información')
+      throw new Error('Error al buscar el cliente')
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    toast.error('Error al buscar tu información')
     throw new Error('Error al buscar el cliente')
   }
-
-  const data = await response.json()
-  return data
 }
 
 export async function validarCodigo({
@@ -25,15 +33,21 @@ export async function validarCodigo({
   rfc: string
   codigo: string
 }) {
-  const response = await fetch(`${API_URL}/validar-codigo`, {
-    method: 'POST',
-    body: JSON.stringify({ codigo, rfc }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+  try {
+    const response = await fetch(`${API_URL}/validar-codigo`, {
+      method: 'POST',
+      body: JSON.stringify({ codigo, rfc }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
-  if (!response.ok) {
+    if (!response.ok) {
+      toast.error('Error al validar el código')
+      throw new Error('Error al validar el código')
+    }
+  } catch {
+    toast.error('Error al validar el código')
     throw new Error('Error al validar el código')
   }
 }
@@ -45,15 +59,21 @@ export async function enviarCodigo({
   rfc: string
   celular: string
 }) {
-  const response = await fetch(`${API_URL}/enviar-codigo`, {
-    method: 'POST',
-    body: JSON.stringify({ rfc, celular }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+  try {
+    const response = await fetch(`${API_URL}/enviar-codigo`, {
+      method: 'POST',
+      body: JSON.stringify({ rfc, celular }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
-  if (!response.ok) {
+    if (!response.ok) {
+      toast.error('Error al enviar el código')
+      throw new Error('Error al enviar el código')
+    }
+  } catch (error) {
+    toast.error('Error al enviar el código')
     throw new Error('Error al enviar el código')
   }
 }
