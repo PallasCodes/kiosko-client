@@ -78,7 +78,10 @@ export default function ListaEstadosCtaPage({
   async function handleImprimir() {
     try {
       setLoading(true)
-      await printEstadoCta(estadoCtaSeleccionado?.orden as unknown as number)
+      await printEstadoCta(
+        estadoCtaSeleccionado?.orden as unknown as number,
+        pdfUrl
+      )
     } catch (error) {
       console.log(error)
     } finally {

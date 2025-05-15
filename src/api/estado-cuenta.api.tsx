@@ -45,10 +45,10 @@ export async function sendSms(rfc: string, idOrden: string) {
   return data
 }
 
-export async function printEstadoCta(idOrden: number) {
+export async function printEstadoCta(idOrden: number, pdfUrl: string) {
   const response = await fetch(`${API_URL}/print`, {
     method: 'POST',
-    body: JSON.stringify({ idOrden }),
+    body: JSON.stringify({ idOrden, pdfUrl }),
     headers: {
       'Content-Type': 'application/json'
     }
