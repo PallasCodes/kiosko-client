@@ -13,6 +13,10 @@ export async function buscarCliente({
   try {
     const response = await fetch(`${API_URL}/buscar-cliente?${query}`)
 
+    if (response.status === 404) {
+      throw new Error('404')
+    }
+
     if (!response.ok) {
       toast.error('Error al buscar tu información')
       throw new Error('Error al buscar el cliente')
@@ -21,6 +25,9 @@ export async function buscarCliente({
     const data = await response.json()
     return data
   } catch (error) {
+    if (error instanceof Error && error.message === '404') {
+      throw new Error('404')
+    }
     toast.error('Error al buscar tu información')
     throw new Error('Error al buscar el cliente')
   }

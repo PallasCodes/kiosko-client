@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage'
 import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
 import PrecalificadorPage from './pages/PrecalificadorPage'
 import ValidarCodigoPage from './pages/ValidarCodigoPage'
+import ClientNotFoundPage from './pages/ClientNotFoundPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -76,6 +77,8 @@ function App() {
         )
       case 'precalificador':
         return <PrecalificadorPage />
+      case '404cliente':
+        return <ClientNotFoundPage />
       default:
         return <h1>Página no encontrada</h1>
     }
@@ -114,6 +117,10 @@ function App() {
       setCurrentUser(cliente)
       setCurrentPage('confirmarDatos')
     } catch (error: any) {
+      if (error.message === '404') {
+        setCurrentPage('404cliente')
+        return
+      }
       console.log(error.message)
     } finally {
       setLoading(false)
