@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Toaster } from 'sonner'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
 import { obtenerEstadoCuenta } from './api/estado-cuenta.api'
@@ -23,6 +24,24 @@ function App() {
   })
   const [estadosCta, setEstadosCta] = useState([])
   const [loading, setLoading] = useState(false)
+
+  function renderAnimatedPage(page: string) {
+    const pageKey = page
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pageKey}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.3 }}
+          className="w-full h-full"
+        >
+          {renderPage(page)}
+        </motion.div>
+      </AnimatePresence>
+    )
+  }
 
   function renderPage(page: string) {
     switch (page) {
@@ -138,7 +157,7 @@ function App() {
       <Layout
         usePadding={currentPage !== 'home' && currentPage !== 'precalificador'}
       >
-        {renderPage(currentPage)}
+        {renderAnimatedPage(currentPage)}
       </Layout>
       {loading && <SpinningLoader />}
       {currentPage !== 'home' && <ExitBtn exit={exitEstadoCta} />}
