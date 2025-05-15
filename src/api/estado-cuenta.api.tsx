@@ -42,11 +42,11 @@ export async function getPdfEstadoCta(idOrden: number) {
   }
 }
 
-export async function sendSms(rfc: string, idOrden: string) {
+export async function sendSms(rfc: string, idOrden: string, celular: string) {
   try {
     const response = await fetch(`${API_URL}/send-sms`, {
       method: 'POST',
-      body: JSON.stringify({ rfc, idOrden }),
+      body: JSON.stringify({ rfc, idOrden, celular }),
       headers: {
         'Content-Type': 'application/json'
       }

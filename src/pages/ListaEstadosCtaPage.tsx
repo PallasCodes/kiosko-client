@@ -72,7 +72,8 @@ export default function ListaEstadosCtaPage({
       setLoading(true)
       await sendSms(
         estadoCtaSeleccionado?.rfc as string,
-        estadoCtaSeleccionado?.orden as unknown as string
+        estadoCtaSeleccionado?.orden as unknown as string,
+        currentUser.celular
       )
       toast.success('Tu estado de cuenta ha sido enviado por SMS')
     } catch (error) {
