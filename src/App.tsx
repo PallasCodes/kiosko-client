@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 
 import { buscarCliente, enviarCodigo, validarCodigo } from './api/cliente.api'
 import { obtenerEstadoCuenta } from './api/estado-cuenta.api'
+
 import ExitBtn from './components/ExitBtn'
 import Layout from './components/Layout'
 import LoginDialog from './components/LoginDialog'
@@ -91,8 +92,8 @@ function App() {
         case 'listaEstadosCta':
           try {
             setLoading(true)
-            // const data = await obtenerEstadoCuenta(currentUser.rfc)
-            const data = await obtenerEstadoCuenta('GODR830305J19')
+            const data = await obtenerEstadoCuenta(currentUser.rfc)
+            // const data = await obtenerEstadoCuenta('GODR830305J19')
 
             setEstadosCta(data.estadosCta ?? [])
           } catch (error) {

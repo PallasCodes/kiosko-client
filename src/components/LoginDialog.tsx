@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEventHandler } from 'react'
 import Dialog from './Dialog'
 import { login } from '../api/auth.api'
+import { api } from '../api'
 
 const LoginDialog = ({
   setLoading
@@ -21,6 +22,7 @@ const LoginDialog = ({
         password: password.current?.value as string
       })
       setLoginDialogOpen(false)
+      api.defaults.headers.common.Authorization = username.current?.value
     } catch (error) {
       console.error('Error al iniciar sesión:', error)
     } finally {

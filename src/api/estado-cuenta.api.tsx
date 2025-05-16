@@ -1,14 +1,11 @@
 import { toast } from 'sonner'
+import { api } from '.'
 
-const API_URL = import.meta.env.VITE_API_URL + '/estado-cuenta'
+const PREFIX = '/estado-cuenta'
 
 export async function obtenerEstadoCuenta(rfc: string) {
   try {
-    const response = await fetch(`${API_URL}/estados?rfc=${rfc}`)
-
-    if (!response.ok) throw new Error()
-
-    const data = await response.json()
+    const { data } = await api.get(`${PREFIX}/estados?rfc=${rfc}`)
     return data
   } catch (error) {
     toast.error('Error al obtener el estado de cuenta')
@@ -18,17 +15,7 @@ export async function obtenerEstadoCuenta(rfc: string) {
 
 export async function getPdfEstadoCta(idOrden: number) {
   try {
-    const response = await fetch(`${API_URL}/generar-pdf`, {
-      method: 'POST',
-      body: JSON.stringify({ idOrden }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) throw new Error()
-
-    const data = await response.json()
+    const { data } = await api.post(`${PREFIX}/generar-pdf`, { idOrden })
     return data
   } catch (error) {
     toast.error('Error al obtener el PDF del estado de cuenta')
@@ -36,19 +23,21 @@ export async function getPdfEstadoCta(idOrden: number) {
   }
 }
 
-export async function sendSms(rfc: string, idOrden: string, celular: string) {
+export async function sendSms({
+  rfc,
+  idOrden,
+  celular
+}: {
+  rfc: string
+  idOrden: string
+  celular: string
+}) {
   try {
-    const response = await fetch(`${API_URL}/send-sms`, {
-      method: 'POST',
-      body: JSON.stringify({ rfc, idOrden, celular }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const { data } = await api.post(`${PREFIX}/send-sms`, {
+      rfc,
+      idOrden,
+      celular
     })
-
-    if (!response.ok) throw new Error()
-
-    const data = await response.json()
     return data
   } catch (error) {
     toast.error('Error al enviar el SMS')
@@ -56,19 +45,15 @@ export async function sendSms(rfc: string, idOrden: string, celular: string) {
   }
 }
 
-export async function printEstadoCta(idOrden: number, pdfUrl: string) {
+export async function printEstadoCta({
+  idOrden,
+  pdfUrl
+}: {
+  idOrden: number
+  pdfUrl: string
+}) {
   try {
-    const response = await fetch(`${API_URL}/print`, {
-      method: 'POST',
-      body: JSON.stringify({ idOrden, pdfUrl }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) throw new Error()
-
-    const data = await response.json()
+    const { data } = await api.post(`${PREFIX}/print`, { idOrden, pdfUrl })
     return data
   } catch (error) {
     toast.error('Error al imprimir el estado de cuenta')

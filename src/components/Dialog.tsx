@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import React from 'react'
 
 type DialogProps = {
   isOpen: boolean
@@ -29,10 +29,6 @@ const Dialog: React.FC<DialogProps> = ({
   className,
   children
 }) => {
-  useLayoutEffect(() => {
-    console.log(persistent)
-  })
-
   return (
     <AnimatePresence>
       {isOpen && (

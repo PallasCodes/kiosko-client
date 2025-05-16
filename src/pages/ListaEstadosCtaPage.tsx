@@ -77,11 +77,12 @@ export default function ListaEstadosCtaPage({
   async function handleSendSms() {
     try {
       setLoading(true)
-      await sendSms(
-        estadoCtaSeleccionado?.rfc as string,
-        estadoCtaSeleccionado?.orden as unknown as string,
-        currentUser.celular
-      )
+      const payload = {
+        rfc: estadoCtaSeleccionado?.rfc as string,
+        idOrden: estadoCtaSeleccionado?.orden as unknown as string,
+        celular: currentUser.celular
+      }
+      await sendSms(payload)
       toast.success('Tu estado de cuenta ha sido enviado por SMS')
     } catch (error) {
       console.error('Error al enviar el SMS:', error)
@@ -93,10 +94,11 @@ export default function ListaEstadosCtaPage({
   async function handleImprimir() {
     try {
       setLoading(true)
-      await printEstadoCta(
-        estadoCtaSeleccionado?.orden as unknown as number,
+      const payload = {
+        idOrden: estadoCtaSeleccionado?.orden as unknown as number,
         pdfUrl
-      )
+      }
+      await printEstadoCta(payload)
       toast.success('Tu estado de cuenta ha sido impreso')
     } catch (error) {
       console.log(error)
@@ -175,7 +177,6 @@ export default function ListaEstadosCtaPage({
             <MobilePhoneIcon className="size-5" />
             <span className="ml-1 text-sm font-semibold">Enviar por SMS</span>
           </button>
-          <button onClick={printPDF}>Imprimir local</button>
         </div>
         <iframe
           src={`${pdfUrl}#toolbar=0&zoom=135`}
