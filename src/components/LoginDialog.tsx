@@ -11,6 +11,7 @@ const LoginDialog = ({
   const [loginDialogOpen, setLoginDialogOpen] = useState(true)
   const password = useRef<HTMLInputElement>(null)
   const username = useRef<HTMLInputElement>(null)
+  const usePrinter = useRef<HTMLInputElement>(null)
 
   const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -23,6 +24,10 @@ const LoginDialog = ({
       })
       setLoginDialogOpen(false)
       api.defaults.headers.common.Authorization = username.current?.value
+      localStorage.setItem(
+        'useprinter',
+        usePrinter.current?.checked ? 'true' : 'false'
+      )
     } catch (error) {
       console.error('Error al iniciar sesión:', error)
     } finally {
@@ -52,6 +57,10 @@ const LoginDialog = ({
             className="border px-4 py-2 rounded"
             ref={password}
           />
+          <div className="flex items-center gap-2">
+            <input type="checkbox" className="size-4" ref={usePrinter} />
+            <label>Usar impresora en red</label>
+          </div>
           <button type="submit" className="btn-primary">
             Iniciar sesión
           </button>

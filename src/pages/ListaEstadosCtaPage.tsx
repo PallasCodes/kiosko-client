@@ -7,12 +7,12 @@ import {
 } from '../api/estado-cuenta.api'
 import { formatDate, numberToCurrency } from '../utils/format'
 
+import { toast } from 'sonner'
 import Dialog from '../components/Dialog'
 import EyeIcon from '../icons/EyeIcon'
 import MobilePhoneIcon from '../icons/MobilePhoneIcon'
 import Printer from '../icons/Printer'
-import { toast } from 'sonner'
-import type { a } from 'framer-motion/client'
+import { api } from '../api'
 
 interface Props {
   changePage: (page: string) => void
@@ -68,10 +68,18 @@ export default function ListaEstadosCtaPage({
     }
   }
 
-  function printPDF() {
-    const iframe = document.getElementById('pdf-frame') as HTMLIFrameElement
-    iframe.contentWindow?.focus()
-    iframe.contentWindow?.print()
+  async function printPDF() {
+    const response = await fetch(pdfUrl)
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+
+    const newWindow = window.open(url, '_blank')
+    newWindow?.addEventListener('load', () => {
+      newWindow.print()
+    })
+    // const iframe = document.getElementById('pdf-frame') as HTMLIFrameElement
+    // iframe.contentWindow?.focus()
+    // iframe.contentWindow?.print()
   }
 
   async function handleSendSms() {
@@ -92,6 +100,13 @@ export default function ListaEstadosCtaPage({
   }
 
   async function handleImprimir() {
+    const usePrinter = localStorage.getItem('useprinter')
+
+    if (usePrinter === 'false') {
+      await printPDF()
+      return
+    }
+
     try {
       setLoading(true)
       const payload = {

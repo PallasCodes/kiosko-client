@@ -93,8 +93,8 @@ function App() {
         case 'listaEstadosCta':
           try {
             setLoading(true)
-            const data = await obtenerEstadoCuenta(currentUser.rfc)
-            // const data = await obtenerEstadoCuenta('GODR830305J19')
+            // const data = await obtenerEstadoCuenta(currentUser.rfc)
+            const data = await obtenerEstadoCuenta('GODR830305J19')
 
             setEstadosCta(data.estadosCta ?? [])
           } catch (error) {
