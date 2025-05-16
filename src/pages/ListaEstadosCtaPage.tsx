@@ -12,7 +12,6 @@ import Dialog from '../components/Dialog'
 import EyeIcon from '../icons/EyeIcon'
 import MobilePhoneIcon from '../icons/MobilePhoneIcon'
 import Printer from '../icons/Printer'
-import { api } from '../api'
 
 interface Props {
   changePage: (page: string) => void
