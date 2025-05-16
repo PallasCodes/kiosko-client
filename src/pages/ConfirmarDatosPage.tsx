@@ -5,11 +5,13 @@ interface Props {
     rfc: string
     celular: string
   }
+  changePage: (page: string) => void
 }
 
 export default function ConfirmarDatosPage({
   confirmarDatos,
-  currentUser
+  currentUser,
+  changePage
 }: Props) {
   return (
     <>
@@ -29,7 +31,7 @@ export default function ConfirmarDatosPage({
           <div className="font-bold mt-2">Celular</div>
           <div>{currentUser.celular}</div>
           <div className="flex mt-5 gap-3">
-            <button className="bg-red-500 text-white font-bold text-xl grow-1 pb-1 pt-2 rounded-full cursor-pointer hover:bg-red-600 transition-colors">
+            <button className="bg-red-500 text-white font-bold text-xl grow-1 pb-1 pt-2 rounded-full cursor-pointer hover:bg-red-600 transition-colors" onClick={() => changePage('404cliente')}>
               NO
             </button>
             <button

@@ -59,6 +59,7 @@ function App() {
           <ConfirmarDatosPage
             confirmarDatos={confirmarDatos}
             currentUser={currentUser}
+            changePage={setCurrentPage}
           />
         )
       case 'validarCodigo':
