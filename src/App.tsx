@@ -93,8 +93,11 @@ function App() {
         case 'listaEstadosCta':
           try {
             setLoading(true)
-            // const data = await obtenerEstadoCuenta(currentUser.rfc)
-            const data = await obtenerEstadoCuenta('GODR830305J19')
+            const rfc =
+              import.meta.env.VITE_ENV === 'dev'
+                ? 'GODR830305J19'
+                : currentUser.rfc
+            const data = await obtenerEstadoCuenta(rfc)
 
             setEstadosCta(data.estadosCta ?? [])
           } catch (error) {
