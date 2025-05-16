@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 type DialogProps = {
@@ -6,6 +6,8 @@ type DialogProps = {
   onClose: () => void
   title?: string
   children: React.ReactNode
+  persistent?: boolean
+  className?: string
 }
 
 const backdrop = {
@@ -23,33 +25,43 @@ const Dialog: React.FC<DialogProps> = ({
   isOpen,
   onClose,
   title,
+  persistent,
+  className,
   children
 }) => {
+  useLayoutEffect(() => {
+    console.log(persistent)
+  })
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-10 flex items-center justify-center bg-[rgba(0,0,0,0.72)]"
+          className={`fixed inset-0 z-10 flex items-center justify-center ${
+            persistent ? 'bg-gray-900' : 'bg-[rgba(0,0,0,0.72)]'
+          }`}
           variants={backdrop}
           initial="hidden"
           animate="visible"
           exit="hidden"
         >
           <motion.div
-            className="bg-white rounded-2xl shadow-xl w-full max-w-6xl mx-4 p-6 relative"
+            className={`bg-white rounded-2xl shadow-xl w-full max-w-6xl mx-4 p-6 relative ${className}`}
             variants={modal}
             initial="hidden"
             animate="visible"
             exit="exit"
             transition={{ duration: 0.25 }}
           >
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-4xl cursor-pointer transition-colors"
-              aria-label="Cerrar"
-            >
-              &times;
-            </button>
+            {!persistent && (
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-4xl cursor-pointer transition-colors"
+                aria-label="Cerrar"
+              >
+                &times;
+              </button>
+            )}
             {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
             <div>{children}</div>
           </motion.div>

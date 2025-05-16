@@ -17,10 +17,7 @@ export async function buscarCliente({
       throw new Error('404')
     }
 
-    if (!response.ok) {
-      toast.error('Error al buscar tu información')
-      throw new Error('Error al buscar el cliente')
-    }
+    if (!response.ok) throw new Error()
 
     const data = await response.json()
     return data
@@ -49,10 +46,7 @@ export async function validarCodigo({
       }
     })
 
-    if (!response.ok) {
-      toast.error('Error al validar el código')
-      throw new Error('Error al validar el código')
-    }
+    if (!response.ok) throw new Error()
   } catch {
     toast.error('Error al validar el código')
     throw new Error('Error al validar el código')
@@ -75,10 +69,7 @@ export async function enviarCodigo({
       }
     })
 
-    if (!response.ok) {
-      toast.error('Error al enviar el código')
-      throw new Error('Error al enviar el código')
-    }
+    if (!response.ok) throw new Error()
   } catch (error) {
     toast.error('Error al enviar el código')
     throw new Error('Error al enviar el código')

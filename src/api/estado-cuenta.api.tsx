@@ -6,10 +6,7 @@ export async function obtenerEstadoCuenta(rfc: string) {
   try {
     const response = await fetch(`${API_URL}/estados?rfc=${rfc}`)
 
-    if (!response.ok) {
-      toast.error('Error al obtener el estado de cuenta')
-      throw new Error('Error al obtener el estado de cuenta')
-    }
+    if (!response.ok) throw new Error()
 
     const data = await response.json()
     return data
@@ -29,10 +26,7 @@ export async function getPdfEstadoCta(idOrden: number) {
       }
     })
 
-    if (!response.ok) {
-      toast.error('Error al obtener el PDF del estado de cuenta')
-      throw new Error('Error al obtener el PDF del estado de cuenta')
-    }
+    if (!response.ok) throw new Error()
 
     const data = await response.json()
     return data
@@ -52,10 +46,7 @@ export async function sendSms(rfc: string, idOrden: string, celular: string) {
       }
     })
 
-    if (!response.ok) {
-      toast.error('Error al enviar el SMS')
-      throw new Error('Error al enviar el SMS')
-    }
+    if (!response.ok) throw new Error()
 
     const data = await response.json()
     return data
@@ -75,10 +66,7 @@ export async function printEstadoCta(idOrden: number, pdfUrl: string) {
       }
     })
 
-    if (!response.ok) {
-      toast.error('Error al imprimir el estado de cuenta')
-      throw new Error('Error al imprimir el estado de cuenta')
-    }
+    if (!response.ok) throw new Error()
 
     const data = await response.json()
     return data

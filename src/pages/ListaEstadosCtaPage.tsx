@@ -12,6 +12,7 @@ import EyeIcon from '../icons/EyeIcon'
 import MobilePhoneIcon from '../icons/MobilePhoneIcon'
 import Printer from '../icons/Printer'
 import { toast } from 'sonner'
+import type { a } from 'framer-motion/client'
 
 interface Props {
   changePage: (page: string) => void
@@ -65,6 +66,12 @@ export default function ListaEstadosCtaPage({
     } finally {
       setLoading(false)
     }
+  }
+
+  function printPDF() {
+    const iframe = document.getElementById('pdf-frame') as HTMLIFrameElement
+    iframe.contentWindow?.focus()
+    iframe.contentWindow?.print()
   }
 
   async function handleSendSms() {
@@ -168,10 +175,12 @@ export default function ListaEstadosCtaPage({
             <MobilePhoneIcon className="size-5" />
             <span className="ml-1 text-sm font-semibold">Enviar por SMS</span>
           </button>
+          <button onClick={printPDF}>Imprimir local</button>
         </div>
         <iframe
           src={`${pdfUrl}#toolbar=0&zoom=135`}
           className="w-full min-h-[78vh]"
+          id="pdf-frame"
         ></iframe>
       </Dialog>
     </div>
