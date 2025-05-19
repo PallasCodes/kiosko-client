@@ -67,6 +67,7 @@ function App() {
           <ValidarCodigoPage
             validarCodigo={validarCodigoCliente}
             currentUser={currentUser}
+            reenviarSms={confirmarDatos}
           />
         )
       case 'listaEstadosCta':
