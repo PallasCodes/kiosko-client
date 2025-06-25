@@ -1,10 +1,6 @@
 import { useState } from 'react'
 
-import {
-  getPdfEstadoCta,
-  printEstadoCta,
-  sendSms
-} from '../api/estado-cuenta.api'
+import { getPdfEstadoCta, sendSms } from '../api/estado-cuenta.api'
 import { formatDate, numberToCurrency } from '../utils/format'
 
 import { toast } from 'sonner'
@@ -76,9 +72,6 @@ export default function ListaEstadosCtaPage({
     newWindow?.addEventListener('load', () => {
       newWindow.print()
     })
-    // const iframe = document.getElementById('pdf-frame') as HTMLIFrameElement
-    // iframe.contentWindow?.focus()
-    // iframe.contentWindow?.print()
   }
 
   async function handleSendSms() {
@@ -93,29 +86,6 @@ export default function ListaEstadosCtaPage({
       toast.success('Tu estado de cuenta ha sido enviado por SMS')
     } catch (error) {
       console.error('Error al enviar el SMS:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function handleImprimir() {
-    const usePrinter = localStorage.getItem('useprinter')
-
-    if (usePrinter === 'false') {
-      await printPDF()
-      return
-    }
-
-    try {
-      setLoading(true)
-      const payload = {
-        idOrden: estadoCtaSeleccionado?.orden as unknown as number,
-        pdfUrl
-      }
-      await printEstadoCta(payload)
-      toast.success('Tu estado de cuenta ha sido impreso')
-    } catch (error) {
-      console.log(error)
     } finally {
       setLoading(false)
     }
@@ -179,7 +149,7 @@ export default function ListaEstadosCtaPage({
         <div className="flex gap-2 mb-4">
           <button
             className="text-white bg-green-600 rounded-full px-3 py-1 flex items-center cursor-pointer hover:bg-green-700 transition-colors"
-            onClick={handleImprimir}
+            onClick={printPDF}
           >
             <Printer className="size-5" />
             <span className="ml-1 text-sm font-semibold">Imprimir</span>

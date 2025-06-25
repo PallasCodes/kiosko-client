@@ -44,19 +44,3 @@ export async function sendSms({
     throw new Error('Error al enviar el SMS')
   }
 }
-
-export async function printEstadoCta({
-  idOrden,
-  pdfUrl
-}: {
-  idOrden: number
-  pdfUrl: string
-}) {
-  try {
-    const { data } = await api.post(`${PREFIX}/print`, { idOrden, pdfUrl })
-    return data
-  } catch (error) {
-    toast.error('Error al imprimir el estado de cuenta')
-    throw new Error('Error al imprimir el estado de cuenta')
-  }
-}

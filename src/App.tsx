@@ -8,18 +8,15 @@ import { obtenerEstadoCuenta } from './api/estado-cuenta.api'
 
 import ExitBtn from './components/ExitBtn'
 import Layout from './components/Layout'
-import LoginDialog from './components/LoginDialog'
 import SpinningLoader from './components/SpinningLoader'
 import BuscarClientePage from './pages/BuscarClientePage'
 import ClientNotFoundPage from './pages/ClientNotFoundPage'
 import ConfirmarDatosPage from './pages/ConfirmarDatosPage'
-import HomePage from './pages/HomePage'
 import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
-import PrecalificadorPage from './pages/PrecalificadorPage'
 import ValidarCodigoPage from './pages/ValidarCodigoPage'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home')
+  const [currentPage, setCurrentPage] = useState('buscarCliente')
   const [currentUser, setCurrentUser] = useState({
     nombre: '',
     rfc: '',
@@ -29,8 +26,6 @@ function App() {
   const [loading, setLoading] = useState(false)
 
   function renderAnimatedPage(page: string) {
-    if (page === 'home' || page === 'precalificador') return renderPage(page)
-
     const pageKey = page
     return (
       <AnimatePresence mode="wait">
@@ -50,8 +45,6 @@ function App() {
 
   function renderPage(page: string) {
     switch (page) {
-      case 'home':
-        return <HomePage changePage={setCurrentPage} />
       case 'buscarCliente':
         return <BuscarClientePage getClientes={getClientes} />
       case 'confirmarDatos':
@@ -79,8 +72,6 @@ function App() {
             setLoading={setLoading}
           />
         )
-      case 'precalificador':
-        return <PrecalificadorPage />
       case '404cliente':
         return <ClientNotFoundPage />
       default:
@@ -164,22 +155,17 @@ function App() {
   }
 
   function exitEstadoCta() {
-    setCurrentPage('home')
+    setCurrentPage('buscarCliente')
     setCurrentUser({ nombre: '', rfc: '', celular: '' })
     setEstadosCta([])
   }
 
   return (
     <>
-      <Layout
-        usePadding={currentPage !== 'home' && currentPage !== 'precalificador'}
-      >
-        {renderAnimatedPage(currentPage)}
-      </Layout>
+      <Layout>{renderAnimatedPage(currentPage)}</Layout>
       {loading && <SpinningLoader />}
-      {currentPage !== 'home' && <ExitBtn exit={exitEstadoCta} />}
+      {currentPage !== 'buscarCliente' && <ExitBtn exit={exitEstadoCta} />}
       <Toaster position="top-right" />
-      <LoginDialog setLoading={setLoading} />
     </>
   )
 }
