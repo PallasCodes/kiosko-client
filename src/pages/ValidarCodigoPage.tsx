@@ -19,8 +19,8 @@ export default function ValidarCodigoPage({
   const [timeLeft, setTimeLeft] = useState(60)
   const [disabledSmsBtn, setDisabledSmsBtn] = useState(true)
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const intervalRef = useRef<any>(null)
+  const timeoutRef = useRef<any>(null)
 
   const startCountdown = () => {
     setDisabledSmsBtn(true)

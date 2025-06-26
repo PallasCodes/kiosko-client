@@ -14,6 +14,7 @@ import ClientNotFoundPage from './pages/ClientNotFoundPage'
 import ConfirmarDatosPage from './pages/ConfirmarDatosPage'
 import ListaEstadosCtaPage from './pages/ListaEstadosCtaPage'
 import ValidarCodigoPage from './pages/ValidarCodigoPage'
+import ClienteForbbidenPage from './pages/ClienteForbbidenPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('buscarCliente')
@@ -72,6 +73,8 @@ function App() {
             setLoading={setLoading}
           />
         )
+      case '403cliente':
+        return <ClienteForbbidenPage />
       case '404cliente':
         return <ClientNotFoundPage />
       default:
@@ -117,6 +120,10 @@ function App() {
       setCurrentUser(cliente)
       setCurrentPage('confirmarDatos')
     } catch (error: any) {
+      if (error.message === '403') {
+        setCurrentPage('403cliente')
+        return
+      }
       if (error.message === '404') {
         setCurrentPage('404cliente')
         return

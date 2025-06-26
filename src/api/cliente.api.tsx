@@ -13,10 +13,13 @@ export async function buscarCliente({
 }) {
   const query = celular === '' ? `rfc=${rfc}` : `celular=${celular}`
   try {
-    const { data } = await api.get(`${PREFIX}/buscar-cliente?${query}`)
+    const { data } = await api.get(`${PREFIX}/buscar-cliente-web?${query}`)
 
     return data
   } catch (error) {
+    if (error instanceof AxiosError && error.status === 403) {
+      throw new Error('403')
+    }
     if (error instanceof AxiosError && error.status === 404) {
       throw new Error('404')
     }
